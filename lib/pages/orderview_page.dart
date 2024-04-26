@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:shopping_cart/model/cart.dart';
+import 'package:shopping_cart/model/order_summary.dart';
 //import 'package:shopping_cart/model/cart_items.dart';
 
 import 'package:shopping_cart/pages/home_page.dart';
@@ -33,8 +34,8 @@ class OrderViewPage extends StatelessWidget {
             ),
             //Text('Order ID: $orderId',style: const TextStyle(fontSize: 18,fontWeight: FontWeight.bold),),
             //const SizedBox(height: 16),
-            //const Text('Delivery Address:', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-            //Text(deliveryAddress, style: const TextStyle(fontSize: 16)),
+            const Text('Delivery Address:', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            Text(globalOrderSummary.deliveryAddress?['state'] ?? '', style: const TextStyle(fontSize: 16)),
             // const SizedBox(height: 16),
             // const Text('Purchased Items:', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
             // ListView.builder(
