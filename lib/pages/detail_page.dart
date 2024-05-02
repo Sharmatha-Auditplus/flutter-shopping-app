@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+
 import 'package:shopping_cart/model/cart.dart';
 import 'package:shopping_cart/model/product_items.dart';
 import 'package:shopping_cart/pages/cart_page.dart';
@@ -158,7 +158,7 @@ class _DetailPageState extends State<DetailPage> {
   SizedBox image() {
     return SizedBox(
       width: double.infinity,
-      height: 280,
+      height: 300,
       child: Stack(
         children: [
           Positioned(
@@ -185,15 +185,19 @@ class _DetailPageState extends State<DetailPage> {
                     offset: const Offset(0, 5),
                   ),
                 ],
-                //borderRadius: BorderRadius.circular(250),
               ),
               child: ClipRRect(
-                //borderRadius: BorderRadius.circular(250),
+                borderRadius: const BorderRadius.only(
+                  topRight: Radius.circular(5),
+                  bottomRight: Radius.circular(5),
+                  topLeft: Radius.circular(5),
+                  bottomLeft: Radius.circular(5),
+                ),
                 child: Image.network(
                   widget.product.imgUrl!,
                   fit: BoxFit.cover,
-                  width: 250,
-                  height: 250,
+                  width: 290,
+                  height: 290,
                 ),
               ),
             ),
