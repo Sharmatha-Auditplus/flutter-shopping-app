@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:shopping_cart/model/cart.dart';
 import 'package:shopping_cart/model/product_items.dart';
 import 'package:shopping_cart/pages/cart_page.dart';
+import 'package:shopping_cart/pages/detail_page.dart';
 import 'package:shopping_cart/pages/favorite_page.dart';
 import 'package:shopping_cart/pages/search_page.dart';
+import 'package:online_sale_client/models/models.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -36,12 +38,12 @@ class _HomePageState extends State<HomePage> {
               MaterialPageRoute(builder: (context) => const CartPage()),
             ).then((_) => setState(() {}));
           }
-          if (index == 4) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const FavoritePage()),
-            ).then((value) => setState(() {}));
-          }
+          // if (index == 4) {
+          //   Navigator.push(
+          //     context,
+          //     MaterialPageRoute(builder: (context) => const FavoritePage()),
+          //   ).then((value) => setState(() {}));
+          // }
         },
         items: [
           const BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
@@ -207,7 +209,7 @@ class _HomePageState extends State<HomePage> {
   Widget gridItems() {
     return SingleChildScrollView(
       child: GridView.builder(
-        itemCount: dummyProduct.length,
+        itemCount: dummyProduct.nodes().length,
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
         padding: const EdgeInsets.all(16),
@@ -218,10 +220,14 @@ class _HomePageState extends State<HomePage> {
           mainAxisExtent: 261,
         ),
         itemBuilder: (context, index) {
-          Product product = dummyProduct[index];
+          Inventory product = dummyProduct.nodes()[index];
           int currentQuantity = getCartQuantity(product.id);
           return GestureDetector(
-            onTap: () {},
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return DetailPage(product: product);
+              }));
+            },
             child: Container(
               height: 261,
               decoration: BoxDecoration(
@@ -237,7 +243,7 @@ class _HomePageState extends State<HomePage> {
                       Center(
                         child: ClipRect(
                           child: Image.network(
-                            product.image,
+                            product.imgUrl!,
                             width: 120,
                             height: 120,
                             fit: BoxFit.cover,
@@ -271,32 +277,32 @@ class _HomePageState extends State<HomePage> {
                       //     ],
                       //   ),
                       // ),
-                      Padding(
-                        padding: const EdgeInsets.all(16),
-                        child: Text(
-                          '₹.${product.price}',
-                          style: const TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20,
-                          ),
-                        ),
-                      ),
+                      // Padding(
+                      //   padding: const EdgeInsets.all(16),
+                      //   child: Text(
+                      //     '₹.${product.price}',
+                      //     style: const TextStyle(
+                      //       color: Colors.black,
+                      //       fontWeight: FontWeight.bold,
+                      //       fontSize: 20,
+                      //     ),
+                      //   ),
+                      // ),
                     ],
                   ),
-                  Positioned(
-                    top: 6,
-                    right: 6,
-                    child: GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          product.isFavorite = !product.isFavorite;
-                        });
-                      },
-                      child: Icon(product.isFavorite ? Icons.favorite : Icons.favorite_border,
-                          color: product.isFavorite ? Colors.red : Colors.grey),
-                    ),
-                  ),
+                  // Positioned(
+                  //   top: 6,
+                  //   right: 6,
+                  //   child: GestureDetector(
+                  //     onTap: () {
+                  //       setState(() {
+                  //         product.isFavorite = !product.isFavorite;
+                  //       });
+                  //     },
+                  //     child: Icon(product.isFavorite ? Icons.favorite : Icons.favorite_border,
+                  //         color: product.isFavorite ? Colors.red : Colors.grey),
+                  //   ),
+                  // ),
                   Align(
                     alignment: Alignment.bottomRight,
                     child: Material(
@@ -308,7 +314,7 @@ class _HomePageState extends State<HomePage> {
                       child: InkWell(
                         onTap: () {
                           setState(() {
-                            addToCart(product);
+                            // addToCart(product);
                           });
                         },
                         child: Padding(

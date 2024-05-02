@@ -116,7 +116,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                           ),
                           const Text(
                             'INDIA',
-                            style: const TextStyle(color: Colors.grey, fontWeight: FontWeight.normal, fontSize: 14),
+                            style: TextStyle(color: Colors.grey, fontWeight: FontWeight.normal, fontSize: 14),
                           ),
                           Text(
                             'Phone number:${addresses[index]['mobNumber']!}',
@@ -132,34 +132,53 @@ class _CheckoutPageState extends State<CheckoutPage> {
           ],
         ),
       ),
-      bottomNavigationBar: BottomAppBar(
+      bottomNavigationBar: Container(
         color: Colors.green,
         child: SizedBox(
-          height: 50,
-          child: Row(
-            children: [
-              const Spacer(),
-              if (delivery == DeliveryMethod.pickup ||
-                  (delivery == DeliveryMethod.homeDelivery && selectedAddressIndex != -1))
-                TextButton(
-                  onPressed: () {
-                    globalOrderSummary.deliveryMethod = delivery;
-                    globalOrderSummary.deliveryAddress = addresses[selectedAddressIndex];
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const PaymentPage()),
-                    ).then((_) => setState(() {}));
-                  },
-                  child: const Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text('Continue', style: TextStyle(color: Colors.white)),
-                      SizedBox(width: 8),
-                      Icon(Icons.arrow_forward_ios, color: Colors.white),
-                    ],
+          height: 60,
+          child: Padding(
+            padding: const EdgeInsets.all(12),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                if (delivery == DeliveryMethod.pickup ||
+                    (delivery == DeliveryMethod.homeDelivery && selectedAddressIndex != -1))
+                  TextButton(
+                    onPressed: () {
+                      globalOrderSummary.deliveryMethod = delivery;
+                      if (selectedAddressIndex > -1) {
+                        globalOrderSummary.deliveryAddress = addresses[selectedAddressIndex];
+                      }
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const PaymentPage()),
+                      ).then((_) => setState(() {}));
+                    },
+                    style: ButtonStyle(
+                      shape: MaterialStateProperty.all(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5.0),
+                          side: const BorderSide(color: Colors.black),
+                        ),
+                      ),
+                      foregroundColor: MaterialStateProperty.all(Colors.white),
+                      backgroundColor: MaterialStateProperty.all(Colors.black),
+                    ),
+                    child: const Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text('Continue', style: TextStyle(color: Colors.white)),
+                        SizedBox(width: 8),
+                        Icon(
+                          Icons.arrow_forward_ios,
+                          color: Colors.white,
+                          size: 15,
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

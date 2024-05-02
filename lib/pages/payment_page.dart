@@ -1,5 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
 import 'package:shopping_cart/pages/orderview_page.dart';
 
 class PaymentPage extends StatefulWidget {
@@ -56,30 +56,49 @@ class _PaymentPageState extends State<PaymentPage> {
           ),
         ],
       ),
-      bottomNavigationBar: BottomAppBar(
+      bottomNavigationBar: Container(
         color: Colors.green,
         child: SizedBox(
-          height: 50,
-          child: Row(
-            children: [
-              const Spacer(),
-              TextButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => OrderViewPage()),
-                  ).then((_) => setState(() {}));
-                },
-                child: const Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text('Continue', style: TextStyle(color: Colors.white)),
-                    SizedBox(width: 8),
-                    Icon(Icons.arrow_forward_ios, color: Colors.white),
-                  ],
+          height: 60,
+          child: Padding(
+            padding: const EdgeInsets.all(12),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => OrderViewPage(selectedPaymentMode: selectedPayment),
+                      ),
+                    ).then((_) => setState(() {}));
+                  },
+                  style: ButtonStyle(
+                    shape: MaterialStateProperty.all(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5.0),
+                        side: const BorderSide(color: Colors.black),
+                      ),
+                    ),
+                    foregroundColor: MaterialStateProperty.all(Colors.white),
+                    backgroundColor: MaterialStateProperty.all(Colors.black),
+                  ),
+                  child: const Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text('Continue', style: TextStyle(color: Colors.white)),
+                      SizedBox(width: 8),
+                      Icon(
+                        Icons.arrow_forward_ios,
+                        color: Colors.white,
+                        size: 15,
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
