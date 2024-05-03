@@ -20,9 +20,27 @@ final data = {
       "node": {
         "id": 1,
         "imgUrl":
-            "https://cdn.grofers.com/cdn-cgi/image/f=auto,fit=scale-down,q=70,metadata=none,w=900/app/assets/products/sliding_images/jpeg/6f9d838a-7a49-4311-93f5-becad952b99f.jpg?ts=1709716796",
+            "https://5.imimg.com/data5/SELLER/Default/2021/7/VW/AM/AH/56140060/india-gate-select-basmati-rice-1-kg-200-g-free-20-extra-.jpg",
         "inventoryBatches": {
           "edges": [
+            {
+              "node": {"batchNo": null, "id": 1, "mrp": 200, "rate": 200, "disc": 0}
+            },
+            {
+              "node": {"batchNo": null, "id": 3, "mrp": 200, "rate": 200, "disc": 0}
+            },
+            {
+              "node": {"batchNo": null, "id": 4, "mrp": 300, "rate": 250, "disc": 17}
+            },
+            {
+              "node": {"batchNo": null, "id": 1, "mrp": 200, "rate": 200, "disc": 0}
+            },
+            {
+              "node": {"batchNo": null, "id": 3, "mrp": 200, "rate": 200, "disc": 0}
+            },
+            {
+              "node": {"batchNo": null, "id": 4, "mrp": 300, "rate": 250, "disc": 17}
+            },
             {
               "node": {"batchNo": null, "id": 1, "mrp": 200, "rate": 200, "disc": 0}
             },
@@ -89,7 +107,7 @@ final data = {
     {
       "node": {
         "id": 5,
-        "imgUrl": "https://www.kindpng.com/picc/m/40-409385_transparent-background-water-bottle-png-png-download.png",
+        "imgUrl": "https://everydaysure.in/water/assets/media/bisleri-1ltr.jpg",
         "inventoryBatches": {
           "edges": [
             {
@@ -299,7 +317,7 @@ final data = {
       "node": {
         "id": 18,
         "imgUrl":
-            "https://media.licdn.com/dms/image/C5612AQFJ-7ScHerOvw/article-cover_image-shrink_720_1280/0/1617076585403?e=2147483647&v=beta&t=9eIB04zpt0gT1Widr-TRKwKemcJkQ7F9DQSot7U_kh8",
+            "https://5.imimg.com/data5/SELLER/Default/2022/10/CS/AO/VH/7969826/wholesaler-for-restaurants-grocery-250x250.jpeg",
         "inventoryBatches": {
           "edges": [
             {

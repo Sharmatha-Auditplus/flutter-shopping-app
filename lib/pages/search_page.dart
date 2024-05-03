@@ -9,12 +9,6 @@ import 'package:provider/provider.dart';
 import 'package:online_sale_client/online_sale_client.dart';
 import 'package:online_sale_client/models/models.dart';
 
-// String isInteger(num value){
-//   value is int || value == value.roundToDouble();
-//   if(value is int){
-//     return
-//   }
-// }
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
 
@@ -32,17 +26,24 @@ class _SearchPageState extends State<SearchPage> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         leading: const BackButton(color: Colors.black),
-        title: TextField(
-          controller: searchController,
-          autofocus: true,
-          decoration: const InputDecoration(
-            hintText: 'Search items...',
-            border: InputBorder.none,
-            hintStyle: TextStyle(color: Colors.grey),
+        title: Container(
+          height: 40,
+          decoration: BoxDecoration(
+            border: Border.all(color: Colors.black, width: 0.5),
+            borderRadius: BorderRadius.circular(8.0),
           ),
-          onSubmitted: (value) {
-            filterProducts();
-          },
+          child: TextField(
+            controller: searchController,
+            autofocus: true,
+            decoration: const InputDecoration(
+                hintText: 'Search items...',
+                border: InputBorder.none,
+                hintStyle: TextStyle(color: Colors.grey),
+                contentPadding: EdgeInsets.symmetric(horizontal: 8)),
+            onSubmitted: (value) {
+              filterProducts();
+            },
+          ),
         ),
         actions: [
           IconButton(
@@ -274,7 +275,7 @@ class _SearchPageState extends State<SearchPage> {
                               Text(
                                 '(${batch.disc}% off)',
                                 style: const TextStyle(
-                                  color: Colors.black,
+                                  color: Colors.green,
                                   fontWeight: FontWeight.normal,
                                   fontSize: 14,
                                 ),

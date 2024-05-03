@@ -1,11 +1,12 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+
 import 'package:shopping_cart/model/cart.dart';
 import 'package:shopping_cart/model/product_items.dart';
 import 'package:shopping_cart/pages/cart_page.dart';
 import 'package:online_sale_client/models/models.dart';
 import 'package:shopping_cart/pages/search_page.dart';
-import '../pages/home_page.dart';
 
 class DetailPage extends StatefulWidget {
   const DetailPage({super.key, required this.product});
@@ -30,18 +31,18 @@ class _DetailPageState extends State<DetailPage> {
   Widget build(BuildContext context) {
     //int currentQuantity = getCartQuantity(widget.product.id);
     return Scaffold(
-      backgroundColor: Colors.green,
+      backgroundColor: Colors.white,
       appBar: AppBar(
         leading: const BackButton(color: Colors.black),
         title: search(),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            image(),
-            details(),
-          ],
-        ),
+      body: Column(
+        children: [
+          //image(),
+          Expanded(
+            child: details(),
+          ),
+        ],
       ),
       bottomNavigationBar: Container(
         color: Colors.white,
@@ -50,40 +51,8 @@ class _DetailPageState extends State<DetailPage> {
           child: Padding(
             padding: const EdgeInsets.all(12),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                Material(
-                  color: Colors.green[300]!,
-                  borderRadius: BorderRadius.circular(20),
-                  child: Row(
-                    children: [
-                      IconButton(
-                        onPressed: () {
-                          if (quantity > 1) {
-                            quantity -= 1;
-                            setState(() {});
-                          }
-                        },
-                        icon: const Icon(Icons.remove, color: Colors.white),
-                      ),
-                      const SizedBox(width: 4),
-                      Text(
-                        '$quantity',
-                        style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                              color: Colors.black,
-                            ),
-                      ),
-                      const SizedBox(width: 4),
-                      IconButton(
-                        onPressed: () {
-                          quantity += 1;
-                          setState(() {});
-                        },
-                        icon: const Icon(Icons.add, color: Colors.white),
-                      ),
-                    ],
-                  ),
-                ),
                 TextButton(
                   onPressed: () {
                     Navigator.push(
@@ -134,17 +103,14 @@ class _DetailPageState extends State<DetailPage> {
       },
       child: Container(
         height: 40,
+        width: 300,
         padding: const EdgeInsets.fromLTRB(8, 2, 6, 2),
         decoration: BoxDecoration(
-          color: Colors.green[50],
-          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: Colors.black, width: 0.5),
+          borderRadius: BorderRadius.circular(8.0),
         ),
         child: Row(
           children: [
-            const Icon(Icons.search, color: Colors.green),
-            const SizedBox(
-              width: 10,
-            ),
             Text(
               'Search Items',
               style: TextStyle(color: Colors.grey[600], fontSize: 16),
@@ -203,113 +169,41 @@ class _DetailPageState extends State<DetailPage> {
     );
   }
 
-  Container details() {
-    return Container(
-      color: Colors.white,
-      width: double.infinity,
-      height: 418,
-      padding: const EdgeInsets.symmetric(horizontal: 18),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      widget.product.name,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.w500,
-                        color: Colors.black,
-                        fontSize: 20,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 10),
-          Text(
-            'Batches',
-            style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                  fontWeight: FontWeight.w500,
-                  fontSize: 18,
-                ),
-          ),
-          const SizedBox(height: 10),
-          batchCategories(),
-          const SizedBox(height: 10),
-
-          //margin: const EdgeInsets.all(.0),
-          //color: Colors.green[300]!,
-          // shadowColor: Colors.green,
-          // surfaceTintColor: Colors.black,
-          // elevation: 8.0,
-          // shape: RoundedRectangleBorder(
-          //   borderRadius: BorderRadius.circular(16.0),
-          // ),
-          const Divider(),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                //mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    '-${selectedBatch.disc.toString()}%',
-                    style: Theme.of(context)
-                        .textTheme
-                        .titleMedium!
-                        .copyWith(fontWeight: FontWeight.normal, color: Color.fromARGB(255, 159, 21, 11), fontSize: 24),
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  const Text(
-                    '₹',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.normal,
-                      fontSize: 14,
-                    ),
-                  ),
-                  Text(
-                    selectedBatch.rate!.toString(),
-                    style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                          fontWeight: FontWeight.normal,
-                          fontSize: 40,
-                        ),
-                  ),
-                ],
-              ),
-              Row(
-                children: [
-                  Text(
-                    'M.R.P: ',
-                    style: Theme.of(context).textTheme.titleMedium!.copyWith(fontWeight: FontWeight.w500, fontSize: 14),
-                  ),
-                  Text(
-                    '₹${selectedBatch.mrp!.toString()}',
-                    style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                          fontWeight: FontWeight.w500,
-                          decoration: selectedBatch.mrp == selectedBatch.rate ? null : TextDecoration.lineThrough,
-                        ),
-                  ),
-                ],
-              )
-            ],
-          ),
-          const Divider(),
-          // Text(
-          //   'About Product',
-          //   style: Theme.of(context).textTheme.titleMedium!.copyWith(
-          //         fontWeight: FontWeight.w500,
-          //       ),
-          // ),
-        ],
+  Widget details() {
+    return SingleChildScrollView(
+      child: Container(
+        color: Colors.white,
+        width: double.infinity,
+        padding: const EdgeInsets.symmetric(horizontal: 18),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              widget.product.name,
+              style: Theme.of(context).textTheme.titleLarge!.copyWith(fontWeight: FontWeight.w500, fontSize: 20),
+            ),
+            //const SizedBox(height: 10),
+            // Text(
+            //   'Batches',
+            //   style: Theme.of(context).textTheme.titleMedium!.copyWith(
+            //         fontWeight: FontWeight.w500,
+            //         fontSize: 18,
+            //       ),
+            // ),
+            //const SizedBox(height: 10),
+            //batchCategories(),
+            // const SizedBox(height: 10),
+            // Text(
+            //   'All Batch Details',
+            //   style: Theme.of(context).textTheme.titleMedium!.copyWith(
+            //         fontWeight: FontWeight.w500,
+            //         fontSize: 18,
+            //       ),
+            // ),
+            const SizedBox(height: 5),
+            allBatchDetails(),
+          ],
+        ),
       ),
     );
   }
@@ -356,6 +250,130 @@ class _DetailPageState extends State<DetailPage> {
           );
         },
       ),
+    );
+  }
+
+  Widget allBatchDetails() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: widget.product.inventoryBatches.nodes().map((batch) {
+        var showDiscount = batch.disc > 0;
+        return Column(
+          children: [
+            SizedBox(
+              height: 80,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Image.network(widget.product.imgUrl!, width: 60, height: 60),
+                  const SizedBox(
+                    width: 5,
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Row(
+                        children: [
+                          const Text(
+                            '₹',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.normal,
+                              fontSize: 14,
+                            ),
+                          ),
+                          Text(
+                            batch.rate!.toString(),
+                            style: const TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.w500,
+                              fontSize: 26,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Text(
+                            'M.R.P: ',
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleMedium!
+                                .copyWith(fontWeight: FontWeight.w500, fontSize: 14),
+                          ),
+                          Text(
+                            '₹${batch.mrp!.toString()}',
+                            style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                                  fontWeight: FontWeight.w500,
+                                  decoration: batch.mrp == batch.rate ? null : TextDecoration.lineThrough,
+                                ),
+                          ),
+                          const SizedBox(width: 5),
+                          if (showDiscount)
+                            Text(
+                              '(${batch.disc.toString()}% off)',
+                              style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                                  fontWeight: FontWeight.normal,
+                                  color: const Color.fromARGB(255, 210, 25, 11),
+                                  fontSize: 16),
+                            ),
+                        ],
+                      ),
+                    ],
+                  ),
+                  const Spacer(),
+                  Material(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(20),
+                    child: Row(
+                      children: [
+                        IconButton(
+                          onPressed: () {
+                            setState(() {
+                              if (quantity > 1) {
+                                quantity -= 1;
+                              }
+                            });
+                          },
+                          icon: const Icon(
+                            Icons.remove,
+                            color: Colors.green,
+                            size: 20,
+                          ),
+                        ),
+                        const SizedBox(width: 2),
+                        Text(
+                          '$quantity',
+                          style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                                color: Colors.black,
+                                fontSize: 20,
+                              ),
+                        ),
+                        const SizedBox(width: 2),
+                        IconButton(
+                          onPressed: () {
+                            setState(() {
+                              quantity += 1;
+                            });
+                          },
+                          icon: const Icon(
+                            Icons.add,
+                            color: Colors.green,
+                            size: 20,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const Divider(),
+          ],
+        );
+      }).toList(),
     );
   }
 }
