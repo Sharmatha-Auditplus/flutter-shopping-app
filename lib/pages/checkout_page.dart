@@ -16,21 +16,22 @@ class CheckoutPage extends StatefulWidget {
 }
 
 class _CheckoutPageState extends State<CheckoutPage> {
-  DeliveryMethod delivery = DeliveryMethod.pickup;
-
+  DeliveryMethod? delivery;
   int selectedAddressIndex = -1;
-  Color _textColor = Colors.green;
-
   List<Map<String, String?>> addresses = [];
+  bool _isHovering = false;
+  bool _isTapped = false;
 
   @override
   Widget build(BuildContext context) {
+    print(delivery);
+    print(selectedAddressIndex);
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.green[50]!,
         leading: const BackButton(color: Colors.black),
         title: const Text('Mode of Delivery',
-            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20)),
-        backgroundColor: Colors.green,
+            style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 20)),
       ),
       resizeToAvoidBottomInset: true,
       body: SingleChildScrollView(
@@ -38,184 +39,177 @@ class _CheckoutPageState extends State<CheckoutPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(height: 20),
-            _buildModeSelection(),
-            const SizedBox(height: 10),
-            if (delivery == DeliveryMethod.pickup)
-              TextButton(
-                onPressed: () {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('Finding nearby pickup locations...'),
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: ListView(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                children: [
+                  ListTile(
+                    title: const Row(
+                      children: [
+                        Icon(
+                          Icons.location_on,
+                          color: Colors.green,
+                        ),
+                        SizedBox(width: 8),
+                        Text('Store Pickup'),
+                      ],
+                    ),
+                    contentPadding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                    trailing: Radio<DeliveryMethod>(
+                      value: DeliveryMethod.pickup,
+                      groupValue: delivery,
+                      activeColor: Colors.green,
+                      onChanged: (DeliveryMethod? value) {
+                        setState(() {
+                          delivery = value;
+                          selectedAddressIndex = -1;
+                        });
+                        _navigateToPaymentPage(null);
+                      },
+                    ),
+                    onTap: () {
+                      setState(() {
+                        delivery = DeliveryMethod.pickup;
+                        selectedAddressIndex = -1;
+                      });
+                      _navigateToPaymentPage(null);
+                    },
+                    tileColor: delivery == DeliveryMethod.pickup ? Colors.green[50] : null,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      side: delivery == DeliveryMethod.pickup
+                          ? const BorderSide(color: Colors.green)
+                          : const BorderSide(color: Colors.grey),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              padding: const EdgeInsets.all(16.0),
+              color: Colors.green[50]!,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text(
+                    'Deliver to:',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                    ),
+                  ),
+                  MouseRegion(
+                    onEnter: (_) => setState(() => _isHovering = true),
+                    onExit: (_) => setState(() => _isHovering = false),
+                    child: GestureDetector(
+                      onTapDown: (_) => setState(() => _isTapped = true),
+                      onTapUp: (_) {
+                        setState(() {
+                          _isTapped = false;
+                        });
+                        _showAddressForm();
+                      },
+                      onTapCancel: () => setState(() {
+                        _isTapped = false;
+                      }),
+                      child: AnimatedContainer(
+                        duration: const Duration(milliseconds: 200),
+                        transform: _isHovering || _isTapped
+                            ? Matrix4.translationValues(0, -2, 0)
+                            : Matrix4.translationValues(0, 0, 0),
+                        child: Text(
+                          '+ Add New Address',
+                          style: TextStyle(
+                            color: _isHovering || _isTapped ? Colors.red : Colors.green,
+                            fontSize: 16,
+                          ),
+                        ),
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.6,
+              width: MediaQuery.of(context).size.width * 10,
+              child: ListView.builder(
+                itemCount: addresses.length,
+                itemBuilder: (context, index) {
+                  return InkWell(
+                    onTap: () {
+                      setState(() {
+                        selectedAddressIndex = index;
+                        delivery = null;
+                      });
+                      _navigateToPaymentPage(index);
+                    },
+                    child: Container(
+                      margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                      decoration: BoxDecoration(
+                        //color: selectedAddressIndex == index ? Colors.green[50] : Colors.white,
+                        border: Border.all(color: selectedAddressIndex == index ? Colors.green : Colors.grey),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    addresses[index]['fullName']!,
+                                    style: const TextStyle(
+                                        color: Colors.grey, fontWeight: FontWeight.normal, fontSize: 14),
+                                  ),
+                                  Text(
+                                    '${addresses[index]['address']}, ${addresses[index]['area']}',
+                                    style: const TextStyle(
+                                        color: Colors.grey, fontWeight: FontWeight.normal, fontSize: 14),
+                                  ),
+                                  Text(
+                                    '${addresses[index]['city']},${addresses[index]['state']},${addresses[index]['pincode']}',
+                                    style: const TextStyle(
+                                        color: Colors.grey, fontWeight: FontWeight.normal, fontSize: 14),
+                                  ),
+                                  const Text(
+                                    'INDIA',
+                                    style: TextStyle(color: Colors.grey, fontWeight: FontWeight.normal, fontSize: 14),
+                                  ),
+                                  Text(
+                                    'Phone number:${addresses[index]['mobNumber']!}',
+                                    style: const TextStyle(
+                                        color: Colors.grey, fontWeight: FontWeight.normal, fontSize: 14),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Radio<DeliveryMethod>(
+                              value: DeliveryMethod.homeDelivery,
+                              groupValue: delivery,
+                              activeColor: Colors.green,
+                              onChanged: (DeliveryMethod? value) {
+                                setState(() {
+                                  delivery = value;
+                                  selectedAddressIndex = index;
+                                });
+                                _navigateToPaymentPage(index);
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
                   );
                 },
-                child: const Text(
-                  'Find a pickup location near you',
-                  style: TextStyle(color: Colors.green, decoration: TextDecoration.underline),
-                ),
               ),
-            if (delivery == DeliveryMethod.homeDelivery) ...[
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: InkWell(
-                  onTap: () {
-                    setState(() {
-                      _textColor = Colors.black;
-                      _showAddressForm();
-                    });
-                  },
-                  //hoverColor: Colors.transparent,
-                  child: Row(
-                    children: [
-                      const Icon(
-                        Icons.add,
-                        color: Colors.grey,
-                      ),
-                      const SizedBox(width: 5),
-                      Text(
-                        'Add New Address',
-                        style: TextStyle(
-                          color: _textColor,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                          decoration: delivery == DeliveryMethod.homeDelivery ? TextDecoration.underline : null,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.6,
-                width: MediaQuery.of(context).size.width * 0.9,
-                child: ListView.builder(
-                  itemCount: addresses.length,
-                  itemBuilder: (context, index) {
-                    return RadioListTile(
-                      value: index,
-                      groupValue: selectedAddressIndex,
-                      onChanged: (int? value) {
-                        setState(() {
-                          selectedAddressIndex = value!;
-                        });
-                      },
-                      title: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            addresses[index]['fullName']!,
-                            style: const TextStyle(color: Colors.grey, fontWeight: FontWeight.normal, fontSize: 14),
-                          ),
-                          Text(
-                            '${addresses[index]['address']}, ${addresses[index]['area']}',
-                            style: const TextStyle(color: Colors.grey, fontWeight: FontWeight.normal, fontSize: 14),
-                          ),
-                          Text(
-                            '${addresses[index]['city']},${addresses[index]['state']},${addresses[index]['pincode']}',
-                            style: const TextStyle(color: Colors.grey, fontWeight: FontWeight.normal, fontSize: 14),
-                          ),
-                          const Text(
-                            'INDIA',
-                            style: TextStyle(color: Colors.grey, fontWeight: FontWeight.normal, fontSize: 14),
-                          ),
-                          Text(
-                            'Phone number:${addresses[index]['mobNumber']!}',
-                            style: const TextStyle(color: Colors.grey, fontWeight: FontWeight.normal, fontSize: 14),
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                ),
-              ),
-            ],
-          ],
-        ),
-      ),
-      bottomNavigationBar: Container(
-        color: Colors.green,
-        child: SizedBox(
-          height: 60,
-          child: Padding(
-            padding: const EdgeInsets.all(12),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                if (delivery == DeliveryMethod.pickup ||
-                    (delivery == DeliveryMethod.homeDelivery && selectedAddressIndex != -1))
-                  TextButton(
-                    onPressed: () {
-                      globalOrderSummary.deliveryMethod = delivery;
-                      if (selectedAddressIndex > -1) {
-                        globalOrderSummary.deliveryAddress = addresses[selectedAddressIndex];
-                      }
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => const PaymentPage()),
-                      ).then((_) => setState(() {}));
-                    },
-                    style: ButtonStyle(
-                      shape: MaterialStateProperty.all(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(5.0),
-                          side: const BorderSide(color: Colors.black),
-                        ),
-                      ),
-                      foregroundColor: MaterialStateProperty.all(Colors.white),
-                      backgroundColor: MaterialStateProperty.all(Colors.black),
-                    ),
-                    child: const Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text('Continue', style: TextStyle(color: Colors.white)),
-                        SizedBox(width: 8),
-                        Icon(
-                          Icons.arrow_forward_ios,
-                          color: Colors.white,
-                          size: 15,
-                        ),
-                      ],
-                    ),
-                  ),
-              ],
             ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildModeSelection() {
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Row(
-          children: [
-            Radio<DeliveryMethod>(
-              value: DeliveryMethod.pickup,
-              groupValue: delivery,
-              onChanged: (DeliveryMethod? value) {
-                setState(() {
-                  if (value != null) {
-                    delivery = value;
-                  }
-                });
-              },
-            ),
-            const Text('Store Pickup'),
-            const SizedBox(width: 20),
-            Radio<DeliveryMethod>(
-              value: DeliveryMethod.homeDelivery,
-              groupValue: delivery,
-              onChanged: (DeliveryMethod? value) {
-                setState(() {
-                  if (value != null) {
-                    delivery = value;
-                  }
-                });
-              },
-            ),
-            const Text('Home Delivery'),
           ],
         ),
       ),
@@ -236,7 +230,27 @@ class _CheckoutPageState extends State<CheckoutPage> {
           addresses.add(value);
           selectedAddressIndex = addresses.length - 1;
         });
+        // _navigateToPaymentPage(addresses.length - 1);
       }
     });
+  }
+
+  void _navigateToPaymentPage(int? selectedIndex) {
+    if (selectedIndex != null) {
+      selectedAddressIndex = selectedIndex;
+      OrderSummary.deliveryMethod = DeliveryMethod.homeDelivery;
+    } else {
+      OrderSummary.deliveryMethod = DeliveryMethod.pickup;
+    }
+    if (OrderSummary.deliveryMethod == DeliveryMethod.pickup || selectedAddressIndex != -1) {
+      OrderSummary.deliveryMethod = delivery ?? DeliveryMethod.pickup;
+      if (selectedAddressIndex > -1) {
+        OrderSummary.deliveryAddress = addresses[selectedAddressIndex];
+      }
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const PaymentPage()),
+      );
+    }
   }
 }

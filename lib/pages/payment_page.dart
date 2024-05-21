@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
-
 import 'package:shopping_cart/pages/orderview_page.dart';
+
+enum PaymentOption {
+  cashOnDelivery,
+  paymentGateway,
+}
 
 class PaymentPage extends StatefulWidget {
   const PaymentPage({super.key});
@@ -10,7 +14,8 @@ class PaymentPage extends StatefulWidget {
 }
 
 class _PaymentPageState extends State<PaymentPage> {
-  int selectedPayment = 0;
+  PaymentOption? selectedPayment;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,90 +23,90 @@ class _PaymentPageState extends State<PaymentPage> {
         leading: const BackButton(color: Colors.black),
         title: const Text(
           'Mode of Payment',
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
+          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 20),
         ),
-        backgroundColor: Colors.green,
+        backgroundColor: Colors.green[100],
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          const SizedBox(
-            height: 30,
-          ),
-          Card(
-            margin: const EdgeInsets.all(40),
-            child: RadioListTile(
-              title: const Text('Pay on Delivery'),
-              value: 0,
-              groupValue: selectedPayment,
-              onChanged: (int? value) {
-                setState(() {
-                  selectedPayment = value!;
-                });
-              },
-            ),
-          ),
-          Card(
-            margin: const EdgeInsets.all(40),
-            child: RadioListTile(
-              title: const Text('Online Payment'),
-              value: 1,
-              groupValue: selectedPayment,
-              onChanged: (int? value) {
-                setState(() {
-                  selectedPayment = value!;
-                });
-              },
-            ),
-          ),
-        ],
-      ),
-      bottomNavigationBar: Container(
-        color: Colors.green,
-        child: SizedBox(
-          height: 60,
-          child: Padding(
-            padding: const EdgeInsets.all(12),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                TextButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => OrderViewPage(selectedPaymentMode: selectedPayment),
-                      ),
-                    ).then((_) => setState(() {}));
+      body: Container(
+        height: 132,
+        margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 60),
+        decoration: BoxDecoration(
+          border: Border.all(color: Colors.grey),
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            children: [
+              ListTile(
+                title: const Text('Cash on Delivery'),
+                trailing: Radio<PaymentOption>(
+                  value: PaymentOption.cashOnDelivery,
+                  groupValue: selectedPayment,
+                  activeColor: Colors.green,
+                  onChanged: (value) {
+                    setState(() {
+                      selectedPayment = value;
+                    });
+                    _navigateToOrderView();
                   },
-                  style: ButtonStyle(
-                    shape: MaterialStateProperty.all(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5.0),
-                        side: const BorderSide(color: Colors.black),
-                      ),
-                    ),
-                    foregroundColor: MaterialStateProperty.all(Colors.white),
-                    backgroundColor: MaterialStateProperty.all(Colors.black),
-                  ),
-                  child: const Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text('Continue', style: TextStyle(color: Colors.white)),
-                      SizedBox(width: 8),
-                      Icon(
-                        Icons.arrow_forward_ios,
-                        color: Colors.white,
-                        size: 15,
-                      ),
-                    ],
-                  ),
                 ),
-              ],
-            ),
+                onTap: () {
+                  setState(() {
+                    selectedPayment = PaymentOption.cashOnDelivery;
+                  });
+                  _navigateToOrderView();
+                },
+                tileColor: selectedPayment == PaymentOption.cashOnDelivery ? Colors.green[50] : null,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  side: selectedPayment == PaymentOption.cashOnDelivery
+                      ? const BorderSide(color: Colors.green)
+                      : BorderSide.none,
+                ),
+              ),
+              ListTile(
+                title: const Text('Payment Gateway'),
+                trailing: Radio<PaymentOption>(
+                  value: PaymentOption.paymentGateway,
+                  groupValue: selectedPayment,
+                  activeColor: Colors.green,
+                  onChanged: (value) {
+                    setState(() {
+                      selectedPayment = value;
+                    });
+                    _navigateToOrderView();
+                  },
+                ),
+                onTap: () {
+                  setState(() {
+                    selectedPayment = PaymentOption.paymentGateway;
+                  });
+                  _navigateToOrderView();
+                },
+                tileColor: selectedPayment == PaymentOption.paymentGateway ? Colors.green[50] : null,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  side: selectedPayment == PaymentOption.paymentGateway
+                      ? const BorderSide(color: Colors.green)
+                      : BorderSide.none,
+                ),
+              ),
+            ],
           ),
         ),
       ),
     );
+  }
+
+  void _navigateToOrderView() {
+    if (selectedPayment != null) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => OrderViewPage(selectedPaymentMode: selectedPayment!.index),
+        ),
+      );
+    }
   }
 }

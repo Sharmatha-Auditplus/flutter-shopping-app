@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:shopping_cart/model/cart.dart';
 import 'package:shopping_cart/model/product_items.dart';
+import 'package:shopping_cart/pages/bottom_navigation_page.dart';
 import 'package:shopping_cart/pages/cart_page.dart';
 import 'package:shopping_cart/pages/detail_page.dart';
 import 'package:shopping_cart/pages/favorite_page.dart';
 import 'package:shopping_cart/pages/home_page.dart';
 import 'package:provider/provider.dart';
-import 'package:online_sale_client/online_sale_client.dart';
+
 import 'package:online_sale_client/models/models.dart';
 
 class SearchPage extends StatefulWidget {
@@ -25,6 +26,8 @@ class _SearchPageState extends State<SearchPage> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
+        backgroundColor: Colors.white,
+        scrolledUnderElevation: 0,
         leading: const BackButton(color: Colors.black),
         title: Container(
           height: 40,
@@ -39,7 +42,7 @@ class _SearchPageState extends State<SearchPage> {
                 hintText: 'Search items...',
                 border: InputBorder.none,
                 hintStyle: TextStyle(color: Colors.grey),
-                contentPadding: EdgeInsets.symmetric(horizontal: 8)),
+                contentPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 10)),
             onSubmitted: (value) {
               filterProducts();
             },
@@ -55,68 +58,11 @@ class _SearchPageState extends State<SearchPage> {
           ),
         ],
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        showSelectedLabels: false,
-        showUnselectedLabels: false,
-        selectedItemColor: Colors.green,
-        unselectedItemColor: Colors.green[200],
-        currentIndex: selectedIndex,
-        onTap: (int index) {
-          setState(() {
-            selectedIndex = index;
-          });
-          if (index == 0) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const HomePage()),
-            ).then((_) => setState(() {}));
-          } else if (index == 2) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const CartPage()),
-            ).then((_) => setState(() {}));
-          }
-        },
-        items: [
-          const BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          const BottomNavigationBarItem(icon: Icon(Icons.chat), label: 'Chat'),
-          BottomNavigationBarItem(
-            icon: Stack(
-              children: <Widget>[
-                const Icon(Icons.shopping_cart),
-                if (items.isNotEmpty)
-                  Positioned(
-                    right: 0,
-                    top: 0,
-                    child: Container(
-                      padding: const EdgeInsets.all(1),
-                      decoration: const BoxDecoration(
-                        color: Colors.red,
-                        shape: BoxShape.circle,
-                      ),
-                      constraints: const BoxConstraints(
-                        minHeight: 14,
-                        minWidth: 14,
-                      ),
-                      child: Text(
-                        '${items.fold(0, (previousValue, current) => previousValue + current.quantity)}',
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 12,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                  )
-              ],
-            ),
-            label: 'Cart',
-          ),
-          const BottomNavigationBarItem(icon: Icon(Icons.notifications), label: 'Notification'),
-          const BottomNavigationBarItem(icon: Icon(Icons.favorite), label: 'Favorite'),
-        ],
+      bottomNavigationBar: BottomNavigationPage(
+        selectedIndex: selectedIndex,
+        onItemTapped: (index) => setState(() {
+          selectedIndex = index;
+        }),
       ),
       body: buildProductCard(),
     );

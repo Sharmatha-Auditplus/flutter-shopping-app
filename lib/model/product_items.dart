@@ -27,28 +27,28 @@ final data = {
               "node": {"batchNo": null, "id": 1, "mrp": 200, "rate": 200, "disc": 0}
             },
             {
-              "node": {"batchNo": null, "id": 3, "mrp": 200, "rate": 200, "disc": 0}
+              "node": {"batchNo": null, "id": 2, "mrp": 200, "rate": 200, "disc": 0}
             },
             {
-              "node": {"batchNo": null, "id": 4, "mrp": 300, "rate": 250, "disc": 17}
+              "node": {"batchNo": null, "id": 3, "mrp": 300, "rate": 250, "disc": 17}
             },
             {
-              "node": {"batchNo": null, "id": 1, "mrp": 200, "rate": 200, "disc": 0}
+              "node": {"batchNo": null, "id": 4, "mrp": 200, "rate": 200, "disc": 0}
             },
             {
-              "node": {"batchNo": null, "id": 3, "mrp": 200, "rate": 200, "disc": 0}
+              "node": {"batchNo": null, "id": 5, "mrp": 200, "rate": 200, "disc": 0}
             },
             {
-              "node": {"batchNo": null, "id": 4, "mrp": 300, "rate": 250, "disc": 17}
+              "node": {"batchNo": null, "id": 6, "mrp": 300, "rate": 250, "disc": 17}
             },
             {
-              "node": {"batchNo": null, "id": 1, "mrp": 200, "rate": 200, "disc": 0}
+              "node": {"batchNo": null, "id": 7, "mrp": 200, "rate": 200, "disc": 0}
             },
             {
-              "node": {"batchNo": null, "id": 3, "mrp": 200, "rate": 200, "disc": 0}
+              "node": {"batchNo": null, "id": 8, "mrp": 200, "rate": 200, "disc": 0}
             },
             {
-              "node": {"batchNo": null, "id": 4, "mrp": 300, "rate": 250, "disc": 17}
+              "node": {"batchNo": null, "id": 9, "mrp": 300, "rate": 250, "disc": 17}
             }
           ]
         },
@@ -58,11 +58,12 @@ final data = {
     {
       "node": {
         "id": 2,
-        "imgUrl": "https://www.freedomcart.com/image/cache/data/Products/Daily%20needs/lays-green-chips-700x700.jpg",
+        "imgUrl":
+            "https://www.quickpantry.in/cdn/shop/products/lay-s-sizzling-hot-potato-chips-31-g-quick-pantry_700x700.jpg?v=1710539205",
         "inventoryBatches": {
           "edges": [
             {
-              "node": {"batchNo": null, "id": 3, "mrp": 10, "rate": 10, "disc": 0}
+              "node": {"batchNo": null, "id": 10, "mrp": 10, "rate": 10, "disc": 0}
             }
           ]
         },
@@ -76,10 +77,10 @@ final data = {
         "inventoryBatches": {
           "edges": [
             {
-              "node": {"batchNo": null, "id": 3, "mrp": 25, "rate": 20, "disc": 20}
+              "node": {"batchNo": null, "id": 11, "mrp": 25, "rate": 20, "disc": 20}
             },
             {
-              "node": {"batchNo": null, "id": 4, "mrp": 30, "rate": 25, "disc": 17}
+              "node": {"batchNo": null, "id": 12, "mrp": 30, "rate": 25, "disc": 17}
             }
           ]
         },
@@ -94,10 +95,10 @@ final data = {
         "inventoryBatches": {
           "edges": [
             {
-              "node": {"batchNo": null, "id": 3, "mrp": 2500, "rate": 2450, "disc": 2}
+              "node": {"batchNo": null, "id": 13, "mrp": 2500, "rate": 2450, "disc": 2}
             },
             {
-              "node": {"batchNo": null, "id": 4, "mrp": 3000, "rate": 2900, "disc": 3}
+              "node": {"batchNo": null, "id": 14, "mrp": 3000, "rate": 2900, "disc": 3}
             }
           ]
         },
@@ -111,10 +112,10 @@ final data = {
         "inventoryBatches": {
           "edges": [
             {
-              "node": {"batchNo": null, "id": 3, "mrp": 10, "rate": 10, "disc": 0}
+              "node": {"batchNo": null, "id": 15, "mrp": 10, "rate": 10, "disc": 0}
             },
             {
-              "node": {"batchNo": null, "id": 4, "mrp": 12, "rate": 10, "disc": 17}
+              "node": {"batchNo": null, "id": 16, "mrp": 12, "rate": 10, "disc": 17}
             }
           ]
         },
@@ -128,10 +129,10 @@ final data = {
         "inventoryBatches": {
           "edges": [
             {
-              "node": {"batchNo": null, "id": 3, "mrp": 32, "rate": 30, "disc": 6}
+              "node": {"batchNo": null, "id": 17, "mrp": 32, "rate": 30, "disc": 6}
             },
             {
-              "node": {"batchNo": null, "id": 4, "mrp": 30, "rate": 30, "disc": 0}
+              "node": {"batchNo": null, "id": 18, "mrp": 30, "rate": 30, "disc": 0}
             }
           ]
         },
@@ -146,7 +147,7 @@ final data = {
         "inventoryBatches": {
           "edges": [
             {
-              "node": {"batchNo": null, "id": 5, "mrp": 25, "rate": 25, "disc": 0}
+              "node": {"batchNo": null, "id": 19, "mrp": 25, "rate": 25, "disc": 0}
             },
           ]
         },
@@ -161,7 +162,7 @@ final data = {
         "inventoryBatches": {
           "edges": [
             {
-              "node": {"batchNo": null, "id": 3, "mrp": 66, "rate": 65, "disc": 2}
+              "node": {"batchNo": null, "id": 20, "mrp": 66, "rate": 65, "disc": 2}
             }
           ]
         },
@@ -176,7 +177,7 @@ final data = {
         "inventoryBatches": {
           "edges": [
             {
-              "node": {"batchNo": null, "id": 5, "mrp": 40, "rate": 40, "disc": 0}
+              "node": {"batchNo": null, "id": 21, "mrp": 40, "rate": 40, "disc": 0}
             }
           ]
         },
@@ -191,7 +192,7 @@ final data = {
         "inventoryBatches": {
           "edges": [
             {
-              "node": {"batchNo": null, "id": 3, "mrp": 59, "rate": 56, "disc": 5}
+              "node": {"batchNo": null, "id": 22, "mrp": 59, "rate": 56, "disc": 5}
             },
           ]
         },
@@ -205,10 +206,10 @@ final data = {
         "inventoryBatches": {
           "edges": [
             {
-              "node": {"batchNo": null, "id": 2, "mrp": 122, "rate": 120, "disc": 2}
+              "node": {"batchNo": null, "id": 23, "mrp": 122, "rate": 120, "disc": 2}
             },
             {
-              "node": {"batchNo": null, "id": 1, "mrp": 140, "rate": 135, "disc": 4}
+              "node": {"batchNo": null, "id": 24, "mrp": 140, "rate": 135, "disc": 4}
             }
           ]
         },
@@ -222,10 +223,10 @@ final data = {
         "inventoryBatches": {
           "edges": [
             {
-              "node": {"batchNo": null, "id": 3, "mrp": 30, "rate": 25, "disc": 17}
+              "node": {"batchNo": null, "id": 25, "mrp": 30, "rate": 25, "disc": 17}
             },
             {
-              "node": {"batchNo": null, "id": 4, "mrp": 45, "rate": 42, "disc": 7}
+              "node": {"batchNo": null, "id": 26, "mrp": 45, "rate": 42, "disc": 7}
             }
           ]
         },
@@ -239,10 +240,10 @@ final data = {
         "inventoryBatches": {
           "edges": [
             {
-              "node": {"batchNo": null, "id": 2, "mrp": 134, "rate": 130, "disc": 3}
+              "node": {"batchNo": null, "id": 27, "mrp": 134, "rate": 130, "disc": 3}
             },
             {
-              "node": {"batchNo": null, "id": 4, "mrp": 132, "rate": 130, "disc": 2}
+              "node": {"batchNo": null, "id": 28, "mrp": 132, "rate": 130, "disc": 2}
             }
           ]
         },
@@ -257,10 +258,10 @@ final data = {
         "inventoryBatches": {
           "edges": [
             {
-              "node": {"batchNo": null, "id": 3, "mrp": 30, "rate": 30, "disc": 0}
+              "node": {"batchNo": null, "id": 29, "mrp": 30, "rate": 30, "disc": 0}
             },
             {
-              "node": {"batchNo": null, "id": 4, "mrp": 30, "rate": 28, "disc": 7}
+              "node": {"batchNo": null, "id": 30, "mrp": 30, "rate": 28, "disc": 7}
             }
           ]
         },
@@ -274,7 +275,7 @@ final data = {
         "inventoryBatches": {
           "edges": [
             {
-              "node": {"batchNo": null, "id": 3, "mrp": 25, "rate": 24, "disc": 4}
+              "node": {"batchNo": null, "id": 31, "mrp": 25, "rate": 24, "disc": 4}
             }
           ]
         },
@@ -289,10 +290,10 @@ final data = {
         "inventoryBatches": {
           "edges": [
             {
-              "node": {"batchNo": null, "id": 2, "mrp": 56, "rate": 55, "disc": 2}
+              "node": {"batchNo": null, "id": 32, "mrp": 56, "rate": 55, "disc": 2}
             },
             {
-              "node": {"batchNo": null, "id": 4, "mrp": 60, "rate": 58, "disc": 3}
+              "node": {"batchNo": null, "id": 33, "mrp": 60, "rate": 58, "disc": 3}
             }
           ]
         },
@@ -306,7 +307,7 @@ final data = {
         "inventoryBatches": {
           "edges": [
             {
-              "node": {"batchNo": null, "id": 5, "mrp": 499, "rate": 498, "disc": 0}
+              "node": {"batchNo": null, "id": 34, "mrp": 499, "rate": 498, "disc": 0}
             }
           ]
         },
@@ -321,7 +322,7 @@ final data = {
         "inventoryBatches": {
           "edges": [
             {
-              "node": {"batchNo": null, "id": 2, "mrp": 50, "rate": 49, "disc": 2}
+              "node": {"batchNo": null, "id": 35, "mrp": 50, "rate": 49, "disc": 2}
             }
           ]
         },

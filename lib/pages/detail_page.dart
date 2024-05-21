@@ -1,12 +1,12 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-
 import 'package:shopping_cart/model/cart.dart';
 import 'package:shopping_cart/model/product_items.dart';
+import 'package:shopping_cart/pages/bottom_navigation_page.dart';
 import 'package:shopping_cart/pages/cart_page.dart';
 import 'package:online_sale_client/models/models.dart';
+import 'package:shopping_cart/pages/home_page.dart';
 import 'package:shopping_cart/pages/search_page.dart';
+import 'package:shopping_cart/widgets/available_size.dart';
 
 class DetailPage extends StatefulWidget {
   const DetailPage({super.key, required this.product});
@@ -19,6 +19,7 @@ class DetailPage extends StatefulWidget {
 class _DetailPageState extends State<DetailPage> {
   late Batch selectedBatch;
   int selectedIndex = 0;
+  int selectedSizeIndex = 0;
   int quantity = 1;
 
   @override
@@ -27,66 +28,102 @@ class _DetailPageState extends State<DetailPage> {
     super.initState();
   }
 
+  int getCartQuantity(int batchId) {
+    for (var item in items) {
+      if (item.batch.id == batchId) {
+        return item.quantity;
+      }
+    }
+    return 0;
+  }
+
+  void showImageDialog(String imgurl) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            side: const BorderSide(color: Color(0xFF2A8068)),
+            borderRadius: BorderRadius.circular(16),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(16),
+                child: Image.network(
+                  imgurl,
+                  fit: BoxFit.cover,
+                ),
+              ),
+              // Padding(
+              //   padding: const EdgeInsets.all(8.0),
+              //   child: Text(
+              //     widget.product.name,
+              //     style: const TextStyle(
+              //       fontWeight: FontWeight.w500,
+              //       fontSize: 18,
+              //     ),
+              //   ),
+              // ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  // Widget fullScreenImage(String imgUrl) => FullScreenWidget(
+  //       disposeLevel: DisposeLevel.Medium,
+  //       child: Center(
+  //         child: Hero(
+  //           tag: imgUrl,
+  //           child: ClipRRect(
+  //             borderRadius: BorderRadius.circular(16),
+  //             child: Image.network(
+  //               imgUrl,
+  //               fit: BoxFit.cover,
+  //             ),
+  //           ),
+  //         ),
+  //       ),
+  //     );
+
   @override
   Widget build(BuildContext context) {
     //int currentQuantity = getCartQuantity(widget.product.id);
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
+        backgroundColor: Colors.white,
+        scrolledUnderElevation: 0,
         leading: const BackButton(color: Colors.black),
         title: search(),
+        actions: [
+          const Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 6)),
+          IconButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const CartPage()),
+              ).then((_) => setState(() {}));
+            },
+            icon: const Icon(Icons.shopping_cart_checkout_sharp, color: Colors.black),
+          ),
+        ],
+      ),
+      bottomNavigationBar: BottomNavigationPage(
+        selectedIndex: selectedIndex,
+        onItemTapped: (index) => setState(() {
+          selectedIndex = index;
+        }),
       ),
       body: Column(
         children: [
-          //image(),
           Expanded(
             child: details(),
           ),
         ],
-      ),
-      bottomNavigationBar: Container(
-        color: Colors.white,
-        child: SizedBox(
-          height: 60,
-          child: Padding(
-            padding: const EdgeInsets.all(12),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                TextButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const CartPage()),
-                    ).then((_) => setState(() {}));
-                  },
-                  style: ButtonStyle(
-                    shape: MaterialStateProperty.all(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5.0),
-                        side: const BorderSide(color: Colors.black),
-                      ),
-                    ),
-                    foregroundColor: MaterialStateProperty.all(Colors.white),
-                    backgroundColor: MaterialStateProperty.all(Colors.black),
-                  ),
-                  child: const Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text('Checkout', style: TextStyle(color: Colors.white)),
-                      SizedBox(width: 8),
-                      Icon(
-                        Icons.shopping_cart_checkout_sharp,
-                        color: Colors.white,
-                        size: 15,
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
       ),
     );
   }
@@ -121,54 +158,6 @@ class _DetailPageState extends State<DetailPage> {
     );
   }
 
-  SizedBox image() {
-    return SizedBox(
-      width: double.infinity,
-      height: 280,
-      child: Stack(
-        children: [
-          Positioned(
-            left: 0,
-            bottom: 0,
-            right: 0,
-            child: Container(
-              height: 50,
-              decoration: const BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(20),
-                    topRight: Radius.circular(20),
-                  )),
-            ),
-          ),
-          Center(
-            child: Container(
-              decoration: BoxDecoration(
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.green[300]!,
-                    blurRadius: 12,
-                    offset: const Offset(0, 5),
-                  ),
-                ],
-                //borderRadius: BorderRadius.circular(250),
-              ),
-              child: ClipRRect(
-                //borderRadius: BorderRadius.circular(250),
-                child: Image.network(
-                  widget.product.imgUrl!,
-                  fit: BoxFit.cover,
-                  width: 250,
-                  height: 250,
-                ),
-              ),
-            ),
-          )
-        ],
-      ),
-    );
-  }
-
   Widget details() {
     return SingleChildScrollView(
       child: Container(
@@ -180,27 +169,71 @@ class _DetailPageState extends State<DetailPage> {
           children: [
             Text(
               widget.product.name,
-              style: Theme.of(context).textTheme.titleLarge!.copyWith(fontWeight: FontWeight.w500, fontSize: 20),
+              style: const TextStyle(
+                fontWeight: FontWeight.w500,
+                fontSize: 18,
+              ),
             ),
-            //const SizedBox(height: 10),
-            // Text(
-            //   'Batches',
-            //   style: Theme.of(context).textTheme.titleMedium!.copyWith(
-            //         fontWeight: FontWeight.w500,
-            //         fontSize: 18,
-            //       ),
-            // ),
-            //const SizedBox(height: 10),
+            const SizedBox(
+              height: 8.0,
+            ),
+            const Row(
+              children: [
+                Text(
+                  'Size',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.grey,
+                  ),
+                ),
+                SizedBox(
+                  width: 26,
+                ),
+                AvailableSize(size: "1 pk"),
+                AvailableSize(size: "2 pk"),
+                AvailableSize(size: "3 pk"),
+                AvailableSize(size: "4 pk"),
+                AvailableSize(size: "5 pk"),
+              ],
+            ),
+            const SizedBox(
+              height: 16.0,
+            ),
+            const Row(
+              children: [
+                Text(
+                  'Color',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.grey,
+                  ),
+                ),
+                SizedBox(width: 18),
+                CircleAvatar(
+                  radius: 16,
+                  backgroundColor: Colors.blue,
+                ),
+                SizedBox(width: 8.0),
+                CircleAvatar(
+                  radius: 16,
+                  backgroundColor: Colors.red,
+                ),
+                SizedBox(width: 8.0),
+                CircleAvatar(
+                  radius: 16,
+                  backgroundColor: Colors.yellow,
+                ),
+                SizedBox(width: 8.0),
+                CircleAvatar(
+                  radius: 16,
+                  backgroundColor: Colors.green,
+                ),
+              ],
+            ),
             //batchCategories(),
-            // const SizedBox(height: 10),
-            // Text(
-            //   'All Batch Details',
-            //   style: Theme.of(context).textTheme.titleMedium!.copyWith(
-            //         fontWeight: FontWeight.w500,
-            //         fontSize: 18,
-            //       ),
-            // ),
-            const SizedBox(height: 5),
+            const SizedBox(height: 12),
             allBatchDetails(),
           ],
         ),
@@ -221,7 +254,7 @@ class _DetailPageState extends State<DetailPage> {
               onTap: () {
                 setState(() {
                   selectedBatch = widget.product.inventoryBatches.nodes()[index];
-                  selectedIndex = index;
+                  selectedSizeIndex = index;
                 });
               },
               child: Container(
@@ -230,7 +263,7 @@ class _DetailPageState extends State<DetailPage> {
                 decoration: BoxDecoration(
                   border: Border.all(
                     width: 2,
-                    color: selectedIndex == index ? Colors.green : Colors.grey,
+                    color: selectedSizeIndex == index ? Colors.green : Colors.grey,
                   ),
                   borderRadius: BorderRadius.circular(10),
                 ),
@@ -265,9 +298,41 @@ class _DetailPageState extends State<DetailPage> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Image.network(widget.product.imgUrl!, width: 60, height: 60),
-                  const SizedBox(
-                    width: 5,
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: GestureDetector(
+                      // onTap: () {
+                      //   Navigator.push(
+                      //     context,
+                      //     MaterialPageRoute(
+                      //       builder: (_) => SafeArea(
+                      //         child: Scaffold(
+                      //           appBar: AppBar(
+                      //             backgroundColor: Colors.white,
+                      //           ),
+                      //           body: Hero(
+                      //             tag: widget.product.imgUrl!,
+                      //             child: Image.network(
+                      //               widget.product.imgUrl!,
+                      //               fit: BoxFit.cover,
+                      //             ),
+                      //           ),
+                      //         ),
+                      //       ),
+                      //     ),
+                      //   );
+                      // },
+                      onTap: () => showImageDialog(widget.product.imgUrl!),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(16),
+                        child: Image.network(
+                          widget.product.imgUrl!,
+                          width: 60,
+                          height: 60,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
                   ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -307,6 +372,7 @@ class _DetailPageState extends State<DetailPage> {
                             '₹${batch.mrp!.toString()}',
                             style: Theme.of(context).textTheme.titleMedium!.copyWith(
                                   fontWeight: FontWeight.w500,
+                                  fontSize: 14,
                                   decoration: batch.mrp == batch.rate ? null : TextDecoration.lineThrough,
                                 ),
                           ),
@@ -332,9 +398,7 @@ class _DetailPageState extends State<DetailPage> {
                         IconButton(
                           onPressed: () {
                             setState(() {
-                              if (quantity > 1) {
-                                quantity -= 1;
-                              }
+                              removeFromCart(batch.id);
                             });
                           },
                           icon: const Icon(
@@ -345,7 +409,7 @@ class _DetailPageState extends State<DetailPage> {
                         ),
                         const SizedBox(width: 2),
                         Text(
-                          '$quantity',
+                          getCartQuantity(batch.id).toString(),
                           style: Theme.of(context).textTheme.titleMedium!.copyWith(
                                 color: Colors.black,
                                 fontSize: 20,
@@ -355,7 +419,7 @@ class _DetailPageState extends State<DetailPage> {
                         IconButton(
                           onPressed: () {
                             setState(() {
-                              quantity += 1;
+                              addToCart(widget.product, batch);
                             });
                           },
                           icon: const Icon(
